@@ -5,7 +5,7 @@ from .forms import Form, Form_post
 from django.http import HttpResponseRedirect
 from django.views import View
 from django.views.generic.edit import FormMixin, FormView
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -41,7 +41,7 @@ class ListPageView(FormMixin, generic.DetailView):
             post = get_object_or_404(Post, pk=pk)
             new_comment = form.save(commit=False)
             new_comment.post = post
-            new_comment.nickname = request.user.username
+            new_comment.nickname = request.user
             new_comment.save()
             return self.form_valid(form)
         else:
@@ -70,9 +70,8 @@ class PostFormCreate(View):
 
 class RegisterView(FormView):
     form_class = UserCreationForm
-    # success_url = reverse_lazy('accounts/login/') // preffered variant
-    # success_url = 'login/'
-    template_name = 'user_registration.html'
+    success_url = reverse_lazy('login')
+    template_name = 'registration.html'
 
     def form_valid(self, form):
         form.save()

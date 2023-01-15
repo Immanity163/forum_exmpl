@@ -1,0 +1,39 @@
+{%extends "layout.html"%}
+
+{% block title %}Log In{% endblock title %}
+
+{% block content %}
+
+<div class = "mx-auto col-md-8">
+
+{% if form.errors %}
+  <p>Invalid login or password</p>
+{% endif %}
+
+
+  {% if user.authenticated %}
+  {% url 'News_Feed:main'%}
+  {% else %}
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+
+  <div
+          class = "Display-6">Username
+  </div>
+  <input type="text" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+
+  <div
+          class = "Display-6">Password
+  </div>
+<input type="text" name="password" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+
+<input class="btn btn-primary mb-3 col-md-2" type="submit" value="log in" />
+
+</form>
+
+  <div>
+    <a href="{% url 'News_Feed:register' %}" ><u class = "alert alert-primary ">Register</u></a>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

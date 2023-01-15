@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}Registration{% endblock title %}
+
+{% block content  %}
+    <div class ="section">
+        {% if form.errors %}
+        <div class="alert alert-danger">
+           <strong>вам следует выполнить требования к паролю либо подобрать другой никнейм</strong>
+        </div>
+      {% endif %}
+        <div class = "form">
+        <form method="post" action="">
+         {% csrf_token %}
+
+
+
+            <div>
+                <h4>Введите никнейм</h4>
+            </div>
+            <input type="text" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+
+
+
+          <div>
+              <h4>Введите пароль</h4>
+          </div>
+          <input type="text" name="password1" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
+          <div>
+              <h4>поддтвердте пароль</h4>
+          </div>
+          <input type="text" name="password2" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
+
+
+
+
+      <input class="btn btn-primary mb-3 col-md-2" type="submit" value="Register" />
+      <div class = "col-md-3 alert alert-danger">пароль не должен быть короче 8 символов</div>
+      <div class = "col-md-3 alert alert-danger">пароль не должен быть похож на никнейм</div>
+      <div class = "col-md-3 alert alert-danger">пароль не должен состоять только из цифр</div>
+      <div class = "col-md-3 alert alert-danger">пароль не должен быть слишком простым</div>
+      <div class = "col-md-3 alert alert-danger">пароли должны совпадать</div>
+      </form>
+    </div>
+    </div>
+{% endblock %}
