@@ -1,9 +1,8 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.views import generic
-from .models import Post, Comment
-from .forms import Form, Form_post
-from django.http import HttpResponseRedirect
-from django.views import View
+from .models import Post, Comment , Category
+from .forms import Form_comment
+
 from django.views.generic.edit import FormMixin, FormView
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
@@ -18,7 +17,7 @@ class MainListView(generic.ListView):
 
 
 class ListPageView(FormMixin, generic.DetailView):
-    form_class = Form
+    form_class = Form_comment
     model = Post
     template_name = 'detailpage.html'
 
@@ -54,18 +53,14 @@ class ListPageView(FormMixin, generic.DetailView):
         return {"post": self.get_object()}
 
 
-class PostFormCreate(View):
 
-    def get(self, request):
-        user_form = Form_post()
-        return render(request, 'create_post.html', context={'form': user_form})
+from django.views.generic.edit import CreateView
+class PostFormCreate(CreateView):
+    model = Post
+    fields = ['title','short_desc','text','image','category']
+    success_url = reverse_lazy('login')
+    template_name = 'create_post.html'
 
-    def post(self, request):
-        user_form = Form_post(request.POST)
-        if user_form.is_valid():
-            Post.objects.create(**user_form.cleaned_data)
-            return HttpResponseRedirect('/list/create_post/')
-        return render(request, 'create_post.html', context={'form': user_form})
 
 
 class RegisterView(FormView):

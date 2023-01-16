@@ -14,8 +14,6 @@ class Post(models.Model):
     text = models.TextField(verbose_name="Text")
     date = models.DateField(auto_now_add=True, verbose_name='Date')
     image = models.ImageField(upload_to='images', default='NONE', verbose_name='Photo/Picture')
-
-
     category = models.ForeignKey(Category,on_delete=models.CASCADE,verbose_name="Category")
 
     def __str__(self):
